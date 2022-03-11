@@ -115,7 +115,14 @@ function resetBoard(message) {
 }
 
 function showBattleLog() {
-	console.log(battleLog);
+	let i = 0;
+	for (const logEntry of battleLog) {
+		console.log(`Entry <#${i}>`);
+		for (const prop in logEntry) {
+			console.log(`${prop}<${logEntry[prop]}>`);
+		}
+		i++;
+	}
 }
 
 attackBtn.addEventListener(EVENT_ON_CLICK, attackHandler);
