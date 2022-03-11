@@ -1,4 +1,3 @@
-const INPUT_MAX_HEALTH = prompt('Maximum health game healthbar', '100');
 const PLAYER_ATTACK_VALUE = 10;
 const PLAYER_HEAL_VALUE = 10;
 const MONSTER_ATTACK_VALUE = 15;
@@ -19,18 +18,34 @@ const LOG_EVENT_HEAL = 'PLAYER HEAL: ';
 const LOG_EVENT_BONUS_LIFE = 'BONUS LIFE ';
 const LOG_EVENT_GAME_OVER = 'GAME OVER: ';
 
-if (isNaN(INPUT_MAX_HEALTH) || Number(INPUT_MAX_HEALTH) <= 0) {
-	alert(MESSAGE_BAD_HEALTH_INPUT);
+let MAX_HEALTH;
+let currentPlayerHealth;
+let currentMonsterHealth;
+let extraLifes;
+let battleLog;
+
+try {
+	MAX_HEALTH = getMaxHealth();
+} catch (error) {
+	console.log(error);
+	MAX_HEALTH = 50;
 }
 
-let MAX_HEALTH = Number(INPUT_MAX_HEALTH) || 50;
-let currentPlayerHealth = MAX_HEALTH;
-let currentMonsterHealth = MAX_HEALTH;
-let extraLifes = true;
-let battleLog = [];
-
+currentPlayerHealth = MAX_HEALTH;
+currentMonsterHealth = MAX_HEALTH;
+extraLifes = true;
+battleLog = [];
 adjustHealthBars(MAX_HEALTH);
 writeBattleLog(LOG_EVENT_GAME_START, 0, MAX_HEALTH, MAX_HEALTH);
+
+function getMaxHealth() {
+	const INPUT_MAX_HEALTH = prompt('Maximum health game healthbar', '100');
+	if (isNaN(INPUT_MAX_HEALTH) || Number(INPUT_MAX_HEALTH) <= 0) {
+		throw { messager: MESSAGE_BAD_HEALTH_INPUT };
+	}
+
+	return Number(INPUT_MAX_HEALTH);
+}
 
 function writeBattleLog(prEvent, prValue, prMonsterHealth, prPlayerHealth) {
 	let logEntry = {
