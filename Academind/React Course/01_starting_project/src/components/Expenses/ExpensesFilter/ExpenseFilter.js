@@ -14,7 +14,12 @@ const ExpensesFilter = (props) => {
 					onChange={yearSelectionHandler}
 				>
 					{Array.from(Array(20).keys()).map((n) => (
-						<option value={2010 + n}>{2010 + n}</option>
+						<option
+							key={n}
+							value={2010 + n}
+						>
+							{2010 + n}
+						</option>
 					))}
 				</select>
 			</div>

@@ -4,8 +4,8 @@ import './ExpenseForm.css';
 const ExpenseForm = (props) => {
 	const [newExpense, changeExpense] = useState({
 		description: '',
-		amount: '',
-		date: new Date('01/01/2000'),
+		amount: 0,
+		date: new Date('01/01/2020'),
 	});
 
 	const descriptionChangedHandler = (event) => {
@@ -16,7 +16,7 @@ const ExpenseForm = (props) => {
 
 	const amountChangedHandler = (event) => {
 		changeExpense((prevState) => {
-			return { ...prevState, amount: event.target.value };
+			return { ...prevState, amount: +event.target.value };
 		});
 	};
 	const dateChangedHandler = (event) => {
@@ -25,15 +25,23 @@ const ExpenseForm = (props) => {
 		});
 	};
 
+	const clearForm = () => {
+		changeExpense({
+			description: '',
+			amount: 0,
+			date: new Date('01/01/2020'),
+		});
+	};
+
 	const newExpenseSubmitHandler = (event) => {
 		event.preventDefault();
 		props.onAddNewExpense(newExpense);
+		clearForm();
+	};
 
-		changeExpense({
-			description: '',
-			amount: '',
-			date: new Date('01/01/2020'),
-		});
+	const clickCancelHandler = (event) => {
+		props.onCancelClick();
+		clearForm();
 	};
 
 	return (
@@ -62,13 +70,19 @@ const ExpenseForm = (props) => {
 					<input
 						type='date'
 						min='2000-01-01'
-						max='2025-12-31'
+						max='2030-12-31'
 						value={newExpense.date.toISOString().slice(0, 10)}
 						onChange={dateChangedHandler}
 					/>
 				</div>
 			</div>
 			<div className='new-expense__actions'>
+				<button
+					type='button'
+					onClick={clickCancelHandler}
+				>
+					Cancel
+				</button>
 				<button type='submit'>Add Expense</button>
 			</div>
 		</form>
